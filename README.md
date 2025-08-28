@@ -6,8 +6,9 @@
 
 ![Example usage](docs/Example_2.png)
 
-
 ![Example usage](docs/Demo.gif)
+
+Menu was changed, demo is not up to date
 
 ## Plugin Installation Instructions
 
