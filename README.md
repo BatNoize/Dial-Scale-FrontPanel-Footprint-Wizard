@@ -9,6 +9,24 @@
 
 ![Example usage](docs/Demo.gif)
 
+## Plugin Installation Instructions
+
+To install the plugin, follow these steps:
+
+- **Download the latest release**: Get the plugin's .zip file from its release page.
+- **Open the Plugin and Content Manager**: In KiCad, navigate to the Plugin and Content Manager.
+- **Install from file**: Click on the "Install from File..." button and select the downloaded plugin .zip file.
+- **Verify installation**: The plugin will now appear under the "Installed" tab.
+- **Close the Manager**: Close the Plugin and Content Manager window.
+
+## Using the Plugin
+
+After installation, you can use the plugin to create a footprint:
+
+- **Open the Footprint Editor**: Open the KiCad Footprint Editor to create a new footprint.
+- **Launch the Wizard**: Start the "Dial Scale Footprint Wizard" from the menu or toolbar to generate your footprint.
+
+
 ## Usage
 Users can input various parameters in the dialog to define the characteristics of the dial scale, such as hole configuration, tick marks, arc fill, center handle, and help circle for orientation. The wizard groups the parameters under different categories for easy navigation and customization.
 
