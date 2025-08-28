@@ -1,11 +1,10 @@
 import pcbnew
 import math
-import numpy as np
 import FootprintWizardBase  # Import der speziellen Hilfs-Bibliothek
 
 # --- Meta data ---
 __author__ = "Stefan H (BatNoize)"
-__version__ = "0.0.5"
+__version__ = "0.0.7"
 __date__ = "2025-08-28"
 # -----------------------------
 
@@ -50,6 +49,16 @@ def create_handle(inner_radius, outer_radius, angle):
     return [[x1, y1], [x2, y2]]
 
 
+def linspace(start, stop, steps):
+    step_size = (stop-start)/(steps-1)
+    # print(step_size)
+    lin_array = []
+    for i in range(steps):
+        # print(i, i*step_size+start)
+        lin_array.append(i*step_size+start)
+    return lin_array
+
+
 def calc_polygon_scale(inner_radius,
                        outer_radius,
                        r_start_offset,
@@ -63,8 +72,8 @@ def calc_polygon_scale(inner_radius,
     endwinkel_rad = stop_angle
 
     # Winkelwerte für das Polygon berechnen
-    winkel_aussen = np.linspace(startwinkel_rad, endwinkel_rad, face_counts+1)
-    winkel_innen = np.linspace(endwinkel_rad, startwinkel_rad, face_counts+1)
+    winkel_aussen = linspace(startwinkel_rad, endwinkel_rad, face_counts+1)
+    winkel_innen = linspace(endwinkel_rad, startwinkel_rad, face_counts+1)
     log_to_file(winkel_aussen)
     log_to_file(winkel_innen)
 
