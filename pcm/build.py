@@ -44,7 +44,7 @@ with open(metadata_template) as f:
 
 
 # zip all files
-zip_file = 'Dial_Scale_FrontPanel_FootprintWizard_-{0}.zip'.format(md['versions'][0]['version'])  # noqa
+zip_file = 'Dial_Scale_FrontPanel_FootprintWizard_{0}.zip'.format(md['versions'][0]['version'])  # noqa
 shutil.make_archive(Path(zip_file).stem, 'zip', 'plugin')
 
 

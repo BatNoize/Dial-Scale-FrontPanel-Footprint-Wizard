@@ -3,7 +3,7 @@
     "name": "Dial Scale FrontPanel Footprint Wizard",
     "description": "Customized dial scale frontpanel footprints.",
     "description_full": "Customized dial scale frontpanel footprints. Users can input various parameters in the dialog to define the characteristics of the dial scale, such as hole configuration, tick marks, arc fill, center handle, and help circle for orientation.",
-    "identifier": "com.github.BatNoize.kicad-polygon-wizard",
+    "identifier": "com.github.BatNoize.Dial-Scale-FrontPanel-Footprint-Wizard",
     "type": "library",
     "author": {
         "name": "BatNoize",
@@ -19,11 +19,11 @@
     },
     "license": "GPL-3.0",
     "resources": {
-        "homepage": "https://github.com/BatNoize/Dial_Scale_FrontPanel_FootprintWizard"
+        "homepage": "https://github.com/BatNoize/Dial-Scale-FrontPanel-Footprint-Wizard"
     },
     "versions": [
         {
-            "version": "0.0.5",
+            "version": "0.0.7",
             "status": "stable",
             "kicad_version": "8.00"
         }
