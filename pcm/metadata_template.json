@@ -23,9 +23,11 @@
     },
     "versions": [
         {
-            "version": "0.0.7",
+            "version": "0.0.8",
             "status": "stable",
-            "kicad_version": "8.00"
+            "kicad_version": "8.00",
+            "download_size": 11343,
+            "install_size": 24227
         }
     ]
 }
