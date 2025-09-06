@@ -26,8 +26,7 @@
             "version": "0.0.8",
             "status": "stable",
             "kicad_version": "8.00",
-            "download_size": 11343,
-            "install_size": 24227
+            "install_size": 24191
         }
     ]
 }
