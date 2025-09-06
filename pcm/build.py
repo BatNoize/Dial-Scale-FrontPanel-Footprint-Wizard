@@ -62,7 +62,7 @@ md['versions'][0].update({
     'install_size': uncompressed_size,
     'download_size': zip_size,
     'download_sha256': zip_sha256,
-    'download_url': 'https://github.com/BatNoize/Example-KiCad-Plugin/releases/download/{0}/PushForKiCad-{0}-pcm.zip'.format(md['versions'][0]['version'])
+    'download_url': 'https://github.com/BatNoize/Dial-Scale-FrontPanel-Footprint-Wizard/releases/download/{0}/Dial_Scale_FrontPanel_FootprintWizard_{0}.zip'.format(md['versions'][0]['version'])
 })
 
 with open('metadata.json', 'w') as of:
