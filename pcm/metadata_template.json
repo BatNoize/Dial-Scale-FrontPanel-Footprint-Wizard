@@ -4,7 +4,7 @@
     "description": "Customized dial scale frontpanel footprints.",
     "description_full": "Customized dial scale frontpanel footprints. Users can input various parameters in the dialog to define the characteristics of the dial scale, such as hole configuration, tick marks, arc fill, center handle, and help circle for orientation.",
     "identifier": "com.github.BatNoize.Dial-Scale-FrontPanel-Footprint-Wizard",
-    "type": "library",
+    "type": "plugin",
     "author": {
         "name": "BatNoize",
         "contact": {
