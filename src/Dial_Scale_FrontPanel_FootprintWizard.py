@@ -157,7 +157,7 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         """
         # Wir gruppieren alle Parameter unter unterschiedlichen Gruppen
         self.AddParam("Hole", "active", self.uBool, True)
-        self.AddParam("Hole", "hole_radius", self.uMM, 2, min_value=0.05)
+        self.AddParam("Hole", "hole_radius", self.uMM, 3.75, min_value=0.05)
         self.AddParam("Hole", "pad_radius", self.uMM, 0.1, min_value=0.01)
         self.AddParam("Hole", "plated", self.uBool, False)
 
