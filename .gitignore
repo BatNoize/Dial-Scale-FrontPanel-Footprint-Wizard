@@ -4,3 +4,10 @@ __pycache__/
 .DS_Store
 resources
 *.py.bak
+/.ipynb_checkpoints/*
+*/.ipynb_checkpoints/*
+/backup/*
+/venv/*
+# pixi environments
+.pixi/*
+!.pixi/config.toml

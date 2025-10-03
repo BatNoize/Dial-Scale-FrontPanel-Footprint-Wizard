@@ -1,0 +1,16 @@
+[workspace]
+authors = ["Stefan Holstein"]
+channels = ["conda-forge"]
+name = "Dial_Scale_FrontPanel_FootprintWizard"
+platforms = ["linux-64", "win-64"]
+version = "0.1.0"
+
+[tasks]
+"build" = "python pcm/build.py"
+jl = "jupyter lab"
+
+[dependencies]
+python = ">=3.13.7,<3.14"
+jupyterlab = ">=4.4.7,<5"
+matplotlib = ">=3.10.6,<4"
+flake8 = ">=7.3.0,<8"

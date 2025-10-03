@@ -60,6 +60,19 @@ Here is an overview of the parameters that can be defined in the dialog:
 - ``Stop Angle``: Specify the stopping angle for the arc.
 - ``Polygon Vertices``: Set the number of vertices for the polygon.
 - ``Line Width``: Set the line width for the arc fill.
+### Arc Splitted Fill:
+- ``Active``: Enable or disable the arc fill feature.
+- ``Filled``: Choose whether the arc should be filled or not.
+- ``Start Inner Radius``: Specify the start inner radius of the arc.
+- ``Stop Inner Radius``: Specify the stop inner radius of the arc.
+- ``Start Outer Radius``: Specify the start outer radius of the arc.
+- ``Stop Outer Radius``: Specify the stop outer radius of the arc.
+- ``Start Angle``: Specify the starting angle for the arc.
+- ``Stop Angle``: Specify the stopping angle for the arc.
+- ``Num Major Ticks``: Set the number of major tick marks.
+- ``Distance``: Set the cap of major tick marks in mm.
+- ``Polygon Vertices``: Set the number of vertices for the polygon.
+- ``Line Width``: Set the line width for the arc fill.
 ### Center Handle:
 - ``Active``: Enable or disable the center handle feature.
 - ``Line Width``: Set the line width for the center handle.
@@ -72,3 +85,113 @@ Here is an overview of the parameters that can be defined in the dialog:
 - ``Line Width``: Set the line width for the help features.
 
 The BuildThisFootprint function generates the geometry of the footprint based on the defined parameters. It creates the dial scale with features such as radial lines, tick marks, arc fill, center handle, and help circle. The wizard provides a user-friendly interface for designing and customizing dial scale footprints for PCB layouts.
+
+## Examples
+
+
+### Tick Marks
+
+![Tick_Marks](docs/Tick_Marks.png)
+
+Tick_Marks Settings:
+- active_Major: True
+- active_Minor: True
+- line_width_Major: 0.2mm
+- line_width_Minor: 0.15mm
+- inner_radius_Major: 5.5mm
+- outer_radius_Major: 8mm
+- start_angle: -150
+- stop_angle: 150
+- inner_radius_Minor: 5.5mm
+- outer_radius_Minor: 7.2mm
+- num_Major_Ticks: 11
+- num_Minor_Ticks: 4
+
+
+### Log Tick Marks
+
+![Tick_Marks](docs/Tick_Marks_Log.png)
+
+Tick_Marks_log Settings:
+- active_Major: True
+- active_Minor: True
+- line_width_Major: 0.2mm
+- line_width_Minor: 0.15mm
+- inner_radius_Major: 5.5mm
+- outer_radius_Major: 8mm
+- start_angle: -150
+- stop_angle: 150
+- inner_radius_Minor: 5.5mm
+- outer_radius_Minor: 7.2mm
+- num_Major_Ticks: 10
+- num_Minor_Ticks: 4
+- invert_scale: False
+- log_Minor: False
+- skip_Minor_Ticks_by_degree: 2
+
+
+### Arc not filled
+
+![Arc_wo_fill](docs/Arc_wo_fill.png)
+
+Arc_Fill Settings:
+- active: True
+- filled: False
+- inner_radius: 6.5mm
+- outer_radius: 8.5mm
+- start_radius_offset: 0.5mm
+- start_angle: -150
+- stop_angle: 150
+- polygon_verticies: 10
+- line_width: 0.1mm
+
+### Arc filled
+
+![Arc_filled](docs/Arc_filled.png)
+
+Arc_Fill Settings:
+- active: True
+- filled: True
+- inner_radius: 6.5mm
+- outer_radius: 8.5mm
+- start_radius_offset: 0.5mm
+- start_angle: -150
+- stop_angle: 150
+- polygon_verticies: 300
+- line_width: 0mm
+
+### Arc splitted filled
+
+![Splitted_arc_filled](docs/Splitted_arc_filled.png)
+
+Arc_Splitted_Fill Settings:
+- active: True
+- filled: True
+- start_inner_radius: 6.5mm
+- stop_inner_radius: 6.5mm
+- start_outer_radius: 7.0mm
+- stop_outer_radius: 10mm
+- start_angle: -150
+- stop_angle: 150
+- num_Major_Ticks: 11
+- distance: 0.5mm
+- polygon_verticies: 30
+- line_width: 0.0mm
+
+### Arc splitted filled
+
+![Splitted_arc_filled](docs/Splitted_arc_filled_2.png)
+
+Arc_Splitted_Fill Settings:
+- active: True
+- filled: False
+- start_inner_radius: 6.5mm
+- stop_inner_radius: 6.5mm
+- start_outer_radius: 7.0mm
+- stop_outer_radius: 10mm
+- start_angle: -150
+- stop_angle: 150
+- num_Major_Ticks: 11
+- distance: 0mm
+- polygon_verticies: 30
+- line_width: 0.2mm

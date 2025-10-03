@@ -1,155 +1,40 @@
-import pcbnew
 import math
+
+# from __future__ import division
 import FootprintWizardBase  # Import der speziellen Hilfs-Bibliothek
+import pcbnew
+
+from dial_scale import (calc_polygon_scale,
+                        create_handle,
+                        create_lin_dial_scale_grid,
+                        create_log_dial_scale_grid,
+                        log_to_file,
+                        calc_splitted_poly)
+
+# from src.dial_scale import linspace
 
 # --- Meta data ---
 __author__ = "Stefan H (BatNoize)"
-__version__ = "0.0.7"
 __date__ = "2025-08-28"
 # -----------------------------
-
-
-def create_cartesian_grid(inner_radius,
-                          outer_radius,
-                          inner_radius_subdivider,
-                          outer_radius_subdivider,
-                          start_angle,
-                          stop_angle,
-                          num_lines,
-                          num_subdivisions):
-
-    main_intervals = []
-    sub_intervals = []
-
-    for i in range(num_lines):
-        angle = start_angle + (stop_angle - start_angle) * i / (num_lines - 1)
-        x1 = round(inner_radius * math.cos(angle), 10)
-        y1 = round(inner_radius * math.sin(angle), 10)
-        x2 = round(outer_radius * math.cos(angle), 10)
-        y2 = round(outer_radius * math.sin(angle), 10)
-        main_intervals.append([[x1, y1], [x2, y2]])
-
-        if i < num_lines - 1:
-            for j in range(1, num_subdivisions + 1):
-                sub_angle = start_angle + (stop_angle - start_angle) * (i + j / (num_subdivisions + 1)) / (num_lines - 1)  # noqa
-                sub_x1 = round(inner_radius_subdivider * math.cos(sub_angle), 10)  # noqa
-                sub_y1 = round(inner_radius_subdivider * math.sin(sub_angle), 10)  # noqa
-                sub_x2 = round(outer_radius_subdivider * math.cos(sub_angle), 10)  # noqa
-                sub_y2 = round(outer_radius_subdivider * math.sin(sub_angle), 10)  # noqa
-                sub_intervals.append([[sub_x1, sub_y1], [sub_x2, sub_y2]])
-
-    return main_intervals, sub_intervals
-
-
-def create_handle(inner_radius, outer_radius, angle):
-    x1 = round(inner_radius * math.cos(angle), 10)
-    y1 = round(inner_radius * math.sin(angle), 10)
-    x2 = round(outer_radius * math.cos(angle), 10)
-    y2 = round(outer_radius * math.sin(angle), 10)
-    return [[x1, y1], [x2, y2]]
-
-
-def linspace(start, stop, steps):
-    step_size = (stop-start)/(steps-1)
-    # print(step_size)
-    lin_array = []
-    for i in range(steps):
-        # print(i, i*step_size+start)
-        lin_array.append(i*step_size+start)
-    return lin_array
-
-
-def calc_polygon_scale(inner_radius,
-                       outer_radius,
-                       r_start_offset,
-                       start_angle,
-                       stop_angle,
-                       face_counts):
-    log_to_file("calc_polygon_scale")
-
-    # Winkel in Radiant umrechnen nicht mehr nötig
-    startwinkel_rad = start_angle
-    endwinkel_rad = stop_angle
-
-    # Winkelwerte für das Polygon berechnen
-    winkel_aussen = linspace(startwinkel_rad, endwinkel_rad, face_counts+1)
-    winkel_innen = linspace(endwinkel_rad, startwinkel_rad, face_counts+1)
-    log_to_file(winkel_aussen)
-    log_to_file(winkel_innen)
-
-    # Koordinaten für das Polygon berechnen
-    r_step = (outer_radius-r_start_offset - inner_radius)/face_counts
-    log_to_file(r_step)
-    print(len(winkel_aussen))
-    x_aussen = []
-    y_aussen = []
-
-    for i, angle in enumerate(winkel_aussen):
-        # print(i, angle, r_aussen-i*r_step)
-        x_aussen.append((inner_radius+r_start_offset+i*r_step) * math.cos(angle))  # noqa
-        y_aussen.append((inner_radius+r_start_offset+i*r_step) * math.sin(angle))  # noqa
-
-    x_innen = []
-    y_innen = []
-    for i, angle in enumerate(winkel_innen):
-        x_innen.append(inner_radius * math.cos(angle))
-        y_innen.append(inner_radius * math.sin(angle))
-
-    poly = []
-    for i in range(len(x_innen)):
-        poly.append((float(x_innen[i]), float(y_innen[i])))
-    for i in range(len(x_aussen)):
-        poly.append((float(x_aussen[i]), float(y_aussen[i])))
-    poly.append((float(x_innen[0]), float(y_innen[0])))
-    return poly
-
-# import os
-# from datetime import datetime
-
-
-def log_to_file(message, log_file=r"~/kicad_debug_log.txt", add_timestamp=True):
-#    """
-#    Schreibt eine Nachricht in eine Log-Datei.##
-
-#    Args:
-#        message (str): Die Nachricht, die geloggt werden soll.
-#        log_file (str): Der Pfad zur Log-Datei.
-#        add_timestamp (bool): Wenn True, wird ein Zeitstempel vorangestellt.
-#    """
-#    try:
-#        # Den aktuellen Zeitstempel im Format JJJJ-MM-TT HH:MM:SS erstellen
-#        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-#        # Die finale Log-Nachricht zusammenbauen
-#        log_entry = f"{timestamp} - {message}" if add_timestamp else message
-#
-#        # Die Datei im 'append'-Modus ('a') öffnen.
-#        # Das 'with'-Statement stellt sicher, dass die Datei immer korrekt geschlossen wird.
-#        with open(log_file, 'a', encoding='utf-8') as f:
-#            f.write(log_entry + "\n") # "\n" für einen Zeilenumbruch
-
-#    except IOError as e:
-#        # Falls die Datei nicht geschrieben werden kann (z.B. wegen fehlender Rechte),
-#        # wird eine Fehlermeldung auf der Konsole ausgegeben.
-#        print(f"!! FEHLER: Konnte nicht in die Log-Datei schreiben: {e}")
-    pass
 
 
 class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard):  # noqa
     """
     Customized dial scale frontpanel footprints.
-    Users can input various parameters in the dialog to define the characteristics
+    Users can input various parameters in the dialog to define the characteristics  # noqa
     of the dial scale, such as hole configuration,
     tick marks, arc fill, center handle, and help circle for orientation.
     """
 
     # Diese Lambda-Funktionen sind eine kompakte Art,
     #   die Metadaten zu definieren
-    GetName = lambda self: "Dial Scale Footprint Wizard (BatNoize)"
-    GetDescription = lambda self: Dial_Scale_FrontPanel_FootprintWizard.__doc__
-    GetReferencePrefix = lambda self: "Dial_Scale"
-    GetValue = lambda self: "Polygon_Line"
-
+    GetName = lambda self: "Dial Scale Footprint Wizard (BatNoize)"  # noqa
+    # GetDescription = lambda self: Dial_Scale_FrontPanel_FootprintWizard.__doc__  # noqa
+    GetDescription = lambda self: 'Customized dial scale frontpanel footprints.'  # noqa
+    GetReferencePrefix = lambda self: "Dial_Scale"  # noqa
+    # GetValue = lambda self: "Dial_Scale"  # noqa
+    GetValue = lambda self: self.module.Value().GetText()  # noqa
 
     def GenerateParameterList(self):
         """
@@ -174,6 +59,22 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         self.AddParam("Tick_Marks", "num_Major_Ticks", self.uInteger, 11)
         self.AddParam("Tick_Marks", "num_Minor_Ticks", self.uInteger, 4)
 
+        self.AddParam("Tick_Marks_log", "active_Major", self.uBool, False)
+        self.AddParam("Tick_Marks_log", "active_Minor", self.uBool, False),
+        self.AddParam("Tick_Marks_log", "line_width_Major", self.uMM, 0.2, min_value=0.01)  # noqa
+        self.AddParam("Tick_Marks_log", "line_width_Minor", self.uMM, 0.15, min_value=0.01)  # noqa
+        self.AddParam("Tick_Marks_log", "inner_radius_Major", self.uMM, 5.5)
+        self.AddParam("Tick_Marks_log", "outer_radius_Major", self.uMM, 8)
+        self.AddParam("Tick_Marks_log", "start_angle", self.uFloat, -150)
+        self.AddParam("Tick_Marks_log", "stop_angle", self.uFloat, 150)
+        self.AddParam("Tick_Marks_log", "inner_radius_Minor", self.uMM, 5.5)
+        self.AddParam("Tick_Marks_log", "outer_radius_Minor", self.uMM, 7.2)
+        self.AddParam("Tick_Marks_log", "num_Major_Ticks", self.uInteger, 10)
+        self.AddParam("Tick_Marks_log", "num_Minor_Ticks", self.uInteger, 10)
+        self.AddParam("Tick_Marks_log", "invert_scale", self.uBool, False)
+        self.AddParam("Tick_Marks_log", "log_Minor", self.uBool, True)
+        self.AddParam("Tick_Marks_log", "skip_Minor_Ticks_by_degree", self.uFloat, 2, min_value=0.0)  # noqa
+
         self.AddParam("Arc_Fill", "active", self.uBool, False)
         self.AddParam("Arc_Fill", "filled", self.uBool, False)
         self.AddParam("Arc_Fill", "inner_radius", self.uMM, 6.5)
@@ -183,6 +84,19 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         self.AddParam("Arc_Fill", "stop_angle", self.uFloat, 150)
         self.AddParam("Arc_Fill", "polygon_verticies", self.uInteger, 6)
         self.AddParam("Arc_Fill", "line_width", self.uMM, 0.1)
+
+        self.AddParam("Arc_Splitted_Fill", "active", self.uBool, False)
+        self.AddParam("Arc_Splitted_Fill", "filled", self.uBool, True)
+        self.AddParam("Arc_Splitted_Fill", "start_inner_radius", self.uMM, 6.5)
+        self.AddParam("Arc_Splitted_Fill", "stop_inner_radius", self.uMM, 6.5)
+        self.AddParam("Arc_Splitted_Fill", "start_outer_radius", self.uMM, 7.0)
+        self.AddParam("Arc_Splitted_Fill", "stop_outer_radius", self.uMM, 8.5)
+        self.AddParam("Arc_Splitted_Fill", "start_angle", self.uFloat, -150)
+        self.AddParam("Arc_Splitted_Fill", "stop_angle", self.uFloat, 150)
+        self.AddParam("Arc_Splitted_Fill", "num_Major_Ticks", self.uInteger, 11, min_value=2)  # noqa
+        self.AddParam("Arc_Splitted_Fill", "distance", self.uMM, 0.2)  # noqa
+        self.AddParam("Arc_Splitted_Fill", "polygon_verticies", self.uInteger, 30, min_value=2)  # noqa
+        self.AddParam("Arc_Splitted_Fill", "line_width", self.uMM, 0.0)
 
         self.AddParam("Center_Handle", "active", self.uBool, False)
         self.AddParam("Center_Handle", "line_width", self.uMM, 0.1, min_value=0.01)  # noqa
@@ -198,12 +112,13 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         """
         Erstellt die Geometrie des Footprints.
         Die Hilfs-Bibliothek stellt ein 'self.draw' Objekt zur Verfügung.
-        Alle Werte aus den Parametern sind bereits in KiCad-internen Einheiten (nm).
+        Alle Werte aus den Parametern sind bereits
+        in KiCad-internen Einheiten (nm).
         """
         # 1. Parameter auslesen
         # Die Struktur ist self.parameters[gruppen_name][parameter_name]
-        show_radials = self.parameters["Tick_Marks"]["active_Major"]
-        show_radial_subdivision = self.parameters["Tick_Marks"]["active_Minor"]  # noqa
+        show_lin_major_ticks = self.parameters["Tick_Marks"]["active_Major"]
+        show_lin_minor_ticks = self.parameters["Tick_Marks"]["active_Minor"]  # noqa
         inner_radius = self.parameters["Tick_Marks"]["inner_radius_Major"]
         outer_radius = self.parameters["Tick_Marks"]["outer_radius_Major"]
         start_angle = self.parameters["Tick_Marks"]["start_angle"]*math.pi/180
@@ -214,6 +129,22 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         num_subdivision_lines = self.parameters["Tick_Marks"]["num_Minor_Ticks"]  # noqa
         line_width_main = self.parameters["Tick_Marks"]["line_width_Major"]
         line_width_subdivision = self.parameters["Tick_Marks"]["line_width_Minor"]  # noqa
+
+        show_log_major_ticks = self.parameters["Tick_Marks_log"]["active_Major"]  # noqa
+        show_log_minor_ticks = self.parameters["Tick_Marks_log"]["active_Minor"]  # noqa
+        inner_radius_log = self.parameters["Tick_Marks_log"]["inner_radius_Major"]  # noqa
+        outer_radius_log = self.parameters["Tick_Marks_log"]["outer_radius_Major"]  # noqa
+        start_angle_log = self.parameters["Tick_Marks_log"]["start_angle"]*math.pi/180  # noqa
+        stop_angle_log = self.parameters["Tick_Marks_log"]["stop_angle"]*math.pi/180  # noqa
+        inner_radius_minor_log = self.parameters["Tick_Marks_log"]["inner_radius_Minor"]  # noqa
+        outer_radius_minor_log = self.parameters["Tick_Marks_log"]["outer_radius_Minor"]  # noqa
+        num_major_lines_log = self.parameters["Tick_Marks_log"]["num_Major_Ticks"]  # noqa
+        num_minor_lines_log = self.parameters["Tick_Marks_log"]["num_Minor_Ticks"]  # noqa
+        invert_log_scale = self.parameters["Tick_Marks_log"]["invert_scale"]
+        log_minor_ticks = self.parameters["Tick_Marks_log"]["log_Minor"]
+        line_width_major_log = self.parameters["Tick_Marks_log"]["line_width_Major"]  # noqa
+        line_width_minor_log = self.parameters["Tick_Marks_log"]["line_width_Minor"]  # noqa
+        skip_minor_Ticks_by_degree = self.parameters["Tick_Marks_log"]["skip_Minor_Ticks_by_degree"]*math.pi/180  # noqa
 
         hole_show = self.parameters["Hole"]["active"]
         hole_radius = self.parameters["Hole"]["hole_radius"]
@@ -230,6 +161,19 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         poly_polygon_verticies = self.parameters["Arc_Fill"]["polygon_verticies"]  # noqa
         poly_line_width = self.parameters["Arc_Fill"]["line_width"]
 
+        acr_spl_show = self.parameters["Arc_Splitted_Fill"]["active"]
+        acr_spl_filled = self.parameters["Arc_Splitted_Fill"]["filled"]
+        acr_spl_start_inner_radius = self.parameters["Arc_Splitted_Fill"]["start_inner_radius"]  # noqa
+        acr_spl_stop_inner_radius = self.parameters["Arc_Splitted_Fill"]["stop_inner_radius"]  # noqa
+        acr_spl_start_outer_radius = self.parameters["Arc_Splitted_Fill"]["start_outer_radius"]  # noqa
+        acr_spl_stop_outer_radius = self.parameters["Arc_Splitted_Fill"]["stop_outer_radius"]  # noqa
+        acr_spl_start_angle_deg = self.parameters["Arc_Splitted_Fill"]["start_angle"]  # noqa
+        acr_spl_stop_angle_deg = self.parameters["Arc_Splitted_Fill"]["stop_angle"]  # noqa
+        acr_spl_num_Major_Ticks = self.parameters["Arc_Splitted_Fill"]["num_Major_Ticks"]  # noqa
+        acr_spl_face_counts = self.parameters["Arc_Splitted_Fill"]["polygon_verticies"]  # noqa
+        acr_spl_distance = self.parameters["Arc_Splitted_Fill"]["distance"] / 2
+        acr_spl_line_width = self.parameters["Arc_Splitted_Fill"]["line_width"]
+
         show_center_handle = self.parameters["Center_Handle"]["active"]  # noqa
         line_width_handle = self.parameters["Center_Handle"]["line_width"]
         inner_radius_handle = self.parameters["Center_Handle"]["inner_radius"]
@@ -241,14 +185,28 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         help_line_width = self.parameters["help"]["line_width"]
 
         self.draw.SetLayer(pcbnew.F_SilkS)
-        main_intervals, sub_intervals = create_cartesian_grid(inner_radius,
-                                                              outer_radius,
-                                                              inner_radius_subdivider,  # noqa
-                                                              outer_radius_subdivider,  # noqa
-                                                              start_angle,
-                                                              stop_angle,
-                                                              num_radial_lines,
-                                                              num_subdivision_lines)  # noqa
+        major_lin_intervals, minor_lin_intervals = create_lin_dial_scale_grid(inner_radius,  # noqa
+                                                                             outer_radius,  # noqa
+                                                                             inner_radius_subdivider,  # noqa
+                                                                             outer_radius_subdivider,  # noqa
+                                                                             start_angle,  # noqa
+                                                                             stop_angle,  # noqa
+                                                                             num_radial_lines,  # noqa
+                                                                             num_subdivision_lines)  # noqa
+
+        major_log_intervals, minor_log_intervals = create_log_dial_scale_grid(inner_radius=inner_radius_log,  # noqa
+                                                                              outer_radius=outer_radius_log,  # noqa
+                                                                              inner_radius_subdivider=inner_radius_minor_log,  # noqa
+                                                                              outer_radius_subdivider=outer_radius_minor_log,  # noqa
+                                                                              start_angle=start_angle_log,  # noqa
+                                                                              stop_angle=stop_angle_log,  # noqa
+                                                                              num_lines=num_major_lines_log,  # noqa
+                                                                              num_subdivisions=num_minor_lines_log,  # noqa
+                                                                              invert=invert_log_scale,  # noqa
+                                                                              log_sub_ticks=log_minor_ticks,  # noqa
+                                                                              skip_sub_divider_for_angle_limit=skip_minor_Ticks_by_degree,  # noqa
+                                                                              show_print=False  # noqa
+                                                                              )
 
         if hole_show:
             # Radius übergane unterschiedet sich ein bisschen
@@ -265,22 +223,42 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
             pad.SetDrillSize(pcbnew.VECTOR2I_MM((hole_radius/5e5), (hole_radius/5e5)))  # noqa
             self.module.Add(pad)
 
-        if show_radials:
+        if show_lin_major_ticks:
             self.draw.SetLayer(pcbnew.F_SilkS)
             self.draw.SetLineThickness(line_width_main)
-            for current_line in main_intervals:
+            for current_line in major_lin_intervals:
                 start_x = current_line[0][0]
                 start_y = current_line[0][1]
                 end_x = current_line[1][0]
                 end_y = current_line[1][1]
                 self.draw.Line(start_x, start_y, end_x, end_y)
             log_to_file("show_radials")
-            log_to_file(main_intervals)
+            log_to_file(major_lin_intervals)
 
-        if show_radial_subdivision:
+        if show_lin_minor_ticks:
             self.draw.SetLayer(pcbnew.F_SilkS)
             self.draw.SetLineThickness(line_width_subdivision)
-            for current_line in sub_intervals:
+            for current_line in minor_lin_intervals:
+                start_x = current_line[0][0]
+                start_y = current_line[0][1]
+                end_x = current_line[1][0]
+                end_y = current_line[1][1]
+                self.draw.Line(start_x, start_y, end_x, end_y)
+
+        if show_log_major_ticks:
+            self.draw.SetLayer(pcbnew.F_SilkS)
+            self.draw.SetLineThickness(line_width_major_log)
+            for current_line in major_log_intervals:
+                start_x = current_line[0][0]
+                start_y = current_line[0][1]
+                end_x = current_line[1][0]
+                end_y = current_line[1][1]
+                self.draw.Line(start_x, start_y, end_x, end_y)
+
+        if show_log_minor_ticks:
+            self.draw.SetLayer(pcbnew.F_SilkS)
+            self.draw.SetLineThickness(line_width_minor_log)
+            for current_line in minor_log_intervals:
                 start_x = current_line[0][0]
                 start_y = current_line[0][1]
                 end_x = current_line[1][0]
@@ -331,8 +309,51 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
             # 7. Das fertige Objekt zum Board hinzufügen
             self.module.Add(polygon_umriss)
 
-        self.draw.SetLineThickness(help_line_width)
+        if acr_spl_show:
+            self.draw.SetLayer(pcbnew.F_SilkS)
+            self.draw.SetLineThickness(poly_line_width)
+            poly_points_array = calc_splitted_poly(start_inner_radius=acr_spl_start_inner_radius,  # noqa
+                                                   end_inner_radius=acr_spl_stop_inner_radius,  # noqa
+                                                   start_outer_radius=acr_spl_start_outer_radius,  # noqa
+                                                   end_outer_radius=acr_spl_stop_outer_radius,  # noqa
+                                                   start_angle_deg=acr_spl_start_angle_deg,  # noqa
+                                                   end_angle_deg=acr_spl_stop_angle_deg,  # noqa
+                                                   segment_counts=acr_spl_num_Major_Ticks,  # noqa
+                                                   face_counts=acr_spl_face_counts,  # noqa
+                                                   distance=acr_spl_distance)
 
+            for poly_points in poly_points_array:
+                punkte_in_mm = poly_points
+                # Eine realistische Grenze, z.B. 1 Meter = 1000 mm
+                MAX_COORD_MM = 1000
+                punkte_kicad = []
+                for x, y in punkte_in_mm:
+                    # Prüfe, ob die Zahlen gültig (nicht inf, nicht nan)
+                    #      und im Rahmen sind
+                    if math.isfinite(x) and math.isfinite(y) and abs(x) < MAX_COORD_MM and abs(y) < MAX_COORD_MM:  # noqa
+                        punkte_kicad.append(pcbnew.VECTOR2I_MM(x, y))
+                    else:
+                        # fehlerhafte werte korrigieren
+                        punkte_kicad.append(pcbnew.VECTOR2I_MM(x/1e6, y/1e6))
+
+                # Wichtig: Dies ist für grafische Elemente,
+                #        nicht für Kupferflächen!
+                polygon_umriss = pcbnew.PCB_SHAPE()
+                # 5. Eigenschaften des Objekts festlegen
+                polygon_umriss.SetShape(pcbnew.SHAPE_T_POLY)
+                polygon_umriss.SetLayer(pcbnew.F_SilkS)  # Vorderer Siebdruck
+                polygon_umriss.SetWidth(int(acr_spl_line_width))
+                if acr_spl_filled:
+                    polygon_umriss.SetFilled(True)  # Füllung aktivieren
+                else:
+                    polygon_umriss.SetFilled(False)
+                # 6. Dem Objekt die Eckpunkte zuweisen
+                polygon_umriss.SetPolyPoints(punkte_kicad)
+
+                # 7. Das fertige Objekt zum Board hinzufügen
+                self.module.Add(polygon_umriss)
+
+        self.draw.SetLineThickness(help_line_width)
         if show_center_handle:
             self.draw.SetLayer(pcbnew.F_SilkS)
             self.draw.SetLineThickness(line_width_handle)
