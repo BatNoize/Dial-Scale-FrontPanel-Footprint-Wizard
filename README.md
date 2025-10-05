@@ -178,7 +178,7 @@ Arc_Splitted_Fill Settings:
 - polygon_verticies: 30
 - line_width: 0.0mm
 
-### Arc splitted filled
+### Arc splitted w.o. fill
 
 ![Splitted_arc_filled](docs/Splitted_arc_filled_2.png)
 
