@@ -22,7 +22,7 @@ Here is an overview of the parameters that can be defined in the dialog:
 - ``Hole Radius``: Specify the radius of the hole.
 - ``Pad Radius``: Set the radius of the pad around the hole.
 - ``Plated``: Choose whether the hole should be plated or not.
-### Tick Marks: (Improved Version is in Progress)
+### Tick Marks: (Improved version is in progress)
 - ``Active Major``: Enable or disable major tick marks.
 - ``Active Minor``: Enable or disable minor tick marks.
 - ``Line Width Major``: Set the line width for major tick marks.
