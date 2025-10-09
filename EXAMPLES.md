@@ -21,36 +21,20 @@ Tick_Marks Settings:
 <table>
   <tr>
     <td>Tick Marks demo 1</td> <td> Settings </td></tr>
-  <tr><td rowspan="2" width=65%><img src="docs/Tick_Marks.png" \></td> <td><div style="white-space:pre;">- active_Major: True
-- active_Minor: True
-- line_width_Major: 0.2mm
-- line_width_Minor: 0.15mm
-- inner_radius_Major: 5.5mm
-- outer_radius_Major: 8mm
-- start_angle: -150
-- stop_angle: 150
-- inner_radius_Minor: 5.5mm
-- outer_radius_Minor: 7.2mm
-- num_Major_Ticks: 11
+  <tr><td rowspan="2" width=65%><img src="docs/Tick_Marks.png" \></td> <td><div style="white-space:pre;">- active_Major: True<br/>
+- active_Minor: True<br/>
+- line_width_Major: 0.2mm<br/>
+- line_width_Minor: 0.15mm<br/>
+- inner_radius_Major: 5.5mm<br/>
+- outer_radius_Major: 8mm<br/>
+- start_angle: -150<br/>
+- stop_angle: 150<br/>
+- inner_radius_Minor: 5.5mm<br/>
+- outer_radius_Minor: 7.2mm<br/>
+- num_Major_Ticks: 11<br/>
 - num_Minor_Ticks: 4</div></td> </tr>
 </table>
 
-<table>
-  <tr>
-    <td>Tick Marks demo 2 full path</td> <td> Settings </td></tr>
-  <tr><td rowspan="2" width=65%><img src="https://github.com/BatNoize/Dial-Scale-FrontPanel-Footprint-Wizard/blob/main/docs/Tick_Marks.png"\></td> <td><div style="white-space:pre;">- active_Major: True
-- active_Minor: True
-- line_width_Major: 0.2mm
-- line_width_Minor: 0.15mm
-- inner_radius_Major: 5.5mm
-- outer_radius_Major: 8mm
-- start_angle: -150
-- stop_angle: 150
-- inner_radius_Minor: 5.5mm
-- outer_radius_Minor: 7.2mm
-- num_Major_Ticks: 11
-- num_Minor_Ticks: 4</div></td> </tr>
-</table>
 
 ### Log Tick Marks
 
