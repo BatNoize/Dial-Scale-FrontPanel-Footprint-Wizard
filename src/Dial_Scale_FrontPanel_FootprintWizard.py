@@ -9,7 +9,11 @@ from dial_scale import (calc_polygon_scale,
                         create_lin_dial_scale_grid,
                         create_log_dial_scale_grid,
                         log_to_file,
-                        calc_splitted_poly)
+                        calc_splitted_poly,
+                        calc_major_tick_marks,
+                        calc_fullrange_minor_tick_marks,
+                        calc_sep_minor_tick_marks,
+                        )
 
 # from src.dial_scale import linspace
 
@@ -74,6 +78,25 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         self.AddParam("Tick_Marks_log", "invert_scale", self.uBool, False)
         self.AddParam("Tick_Marks_log", "log_Minor", self.uBool, True)
         self.AddParam("Tick_Marks_log", "skip_Minor_Ticks_by_degree", self.uFloat, 2, min_value=0.0)  # noqa
+
+        self.AddParam("Tick_Marks_2", "active_Major", self.uBool, False)
+        self.AddParam("Tick_Marks_2", "active_Minor", self.uBool, False),
+        self.AddParam("Tick_Marks_2", "fullrange_Minor_Ticks", self.uBool, True)  # noqa
+        self.AddParam("Tick_Marks_2", "line_width_Major", self.uMM, 0.2, min_value=0.01)  # noqa
+        self.AddParam("Tick_Marks_2", "line_width_Minor", self.uMM, 0.15, min_value=0.01)  # noqa
+        self.AddParam("Tick_Marks_2", "start_inner_radius_Major", self.uMM, 5.5)  # noqa
+        self.AddParam("Tick_Marks_2", "stop_inner_radius_Major", self.uMM, 5.5)
+        self.AddParam("Tick_Marks_2", "start_outer_radius_Major", self.uMM, 6)
+        self.AddParam("Tick_Marks_2", "stop_outer_radius_Major", self.uMM, 8)
+        self.AddParam("Tick_Marks_2", "start_inner_radius_Minor", self.uMM, 5.5)  # noqa
+        self.AddParam("Tick_Marks_2", "stop_inner_radius_Minor", self.uMM, 5.5)
+        self.AddParam("Tick_Marks_2", "start_outer_radius_Minor", self.uMM, 6)
+        self.AddParam("Tick_Marks_2", "stop_outer_radius_Minor", self.uMM, 8)
+        self.AddParam("Tick_Marks_2", "start_angle", self.uFloat, -150)
+        self.AddParam("Tick_Marks_2", "stop_angle", self.uFloat, 150)
+        self.AddParam("Tick_Marks_2", "num_Major_Ticks", self.uInteger, 11)
+        self.AddParam("Tick_Marks_2", "num_Minor_Ticks", self.uInteger, 4)
+        self.AddParam("Tick_Marks_2", "minor_skip_major_angle", self.uBool, True)  # noqa
 
         self.AddParam("Arc_Fill", "active", self.uBool, False)
         self.AddParam("Arc_Fill", "filled", self.uBool, False)
@@ -145,6 +168,25 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
         line_width_major_log = self.parameters["Tick_Marks_log"]["line_width_Major"]  # noqa
         line_width_minor_log = self.parameters["Tick_Marks_log"]["line_width_Minor"]  # noqa
         skip_minor_Ticks_by_degree = self.parameters["Tick_Marks_log"]["skip_Minor_Ticks_by_degree"]*math.pi/180  # noqa
+
+        show_major_ticks_v2 = self.parameters["Tick_Marks_2"]["active_Major"]
+        show_minor_ticks_v2 = self.parameters["Tick_Marks_2"]["active_Minor"]
+        fullrange_Minor_Ticks = self.parameters["Tick_Marks_2"]["fullrange_Minor_Ticks"]  # noqa
+        line_width_Major_v2 = self.parameters["Tick_Marks_2"]["line_width_Major"]  # noqa
+        line_width_Minor_v2 = self.parameters["Tick_Marks_2"]["line_width_Minor"]  # noqa
+        start_inner_radius_Major_v2 = self.parameters["Tick_Marks_2"]["start_inner_radius_Major"]  # noqa
+        start_outer_radius_Major_v2 = self.parameters["Tick_Marks_2"]["start_outer_radius_Major"]  # noqa
+        stop_inner_radius_Major_v2 = self.parameters["Tick_Marks_2"]["stop_inner_radius_Major"]  # noqa
+        stop_outer_radius_Major_v2 = self.parameters["Tick_Marks_2"]["stop_outer_radius_Major"]  # noqa
+        start_inner_radius_Minor_v2 = self.parameters["Tick_Marks_2"]["start_inner_radius_Minor"]  # noqa
+        start_outer_radius_Minor_v2 = self.parameters["Tick_Marks_2"]["start_outer_radius_Minor"]  # noqa
+        stop_inner_radius_Minor_v2 = self.parameters["Tick_Marks_2"]["stop_inner_radius_Minor"]  # noqa
+        stop_outer_radius_Minor_v2 = self.parameters["Tick_Marks_2"]["stop_outer_radius_Minor"]  # noqa
+        start_angle_tick_v2 = self.parameters["Tick_Marks_2"]["start_angle"]
+        stop_angle_tick_v2 = self.parameters["Tick_Marks_2"]["stop_angle"]
+        num_Major_Ticks_v2 = self.parameters["Tick_Marks_2"]["num_Major_Ticks"]
+        num_Minor_Ticks_v2 = self.parameters["Tick_Marks_2"]["num_Minor_Ticks"]
+        minor_skip_major_angle_tick_v2 = self.parameters["Tick_Marks_2"]["minor_skip_major_angle"]  # noqa
 
         hole_show = self.parameters["Hole"]["active"]
         hole_radius = self.parameters["Hole"]["hole_radius"]
@@ -232,8 +274,6 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
                 end_x = current_line[1][0]
                 end_y = current_line[1][1]
                 self.draw.Line(start_x, start_y, end_x, end_y)
-            log_to_file("show_radials")
-            log_to_file(major_lin_intervals)
 
         if show_lin_minor_ticks:
             self.draw.SetLayer(pcbnew.F_SilkS)
@@ -265,6 +305,59 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
                 end_y = current_line[1][1]
                 self.draw.Line(start_x, start_y, end_x, end_y)
 
+        # # Tick Marks V2 ########################################
+        major_tick_marks_v2 = calc_major_tick_marks(start_inner_radius=start_inner_radius_Major_v2,  # noqa
+                                                    stop_inner_radius=stop_inner_radius_Major_v2,  # noqa
+                                                    start_outer_radius=start_outer_radius_Major_v2,  # noqa
+                                                    stop_outer_radius=stop_outer_radius_Major_v2,  # noqa
+                                                    start_angle=start_angle_tick_v2,  # noqa
+                                                    stop_angle=stop_angle_tick_v2,  # noqa
+                                                    num_major_ticks=num_Major_Ticks_v2)  # noqa
+
+        if fullrange_Minor_Ticks:
+            minor_tick_marks_v2 = calc_fullrange_minor_tick_marks(start_inner_radius=start_inner_radius_Minor_v2,  # noqa
+                                                                  stop_inner_radius=stop_inner_radius_Minor_v2,  # noqa
+                                                                  start_outer_radius=start_outer_radius_Minor_v2,  # noqa
+                                                                  stop_outer_radius=stop_outer_radius_Minor_v2,  # noqa
+                                                                  start_angle=start_angle_tick_v2,  # noqa
+                                                                  stop_angle=stop_angle_tick_v2,  # noqa
+                                                                  num_major_ticks=num_Major_Ticks_v2,  # noqa
+                                                                  num_minor_ticks=num_Minor_Ticks_v2,  # noqa
+                                                                  skip_major_pos=minor_skip_major_angle_tick_v2  # noqa
+                                                                  )
+        else:
+            minor_tick_marks_v2 = calc_sep_minor_tick_marks(start_inner_radius=start_inner_radius_Minor_v2,  # noqa
+                                                            stop_inner_radius=stop_inner_radius_Minor_v2,  # noqa
+                                                            start_outer_radius=start_outer_radius_Minor_v2,  # noqa
+                                                            stop_outer_radius=stop_outer_radius_Minor_v2,  # noqa
+                                                            start_angle=start_angle_tick_v2,  # noqa
+                                                            stop_angle=stop_angle_tick_v2,  # noqa
+                                                            num_major_ticks=num_Major_Ticks_v2,  # noqa
+                                                            num_minor_ticks=num_Minor_Ticks_v2,  # noqa
+                                                            skip_major_pos=minor_skip_major_angle_tick_v2  # noqa
+                                                            )
+
+        if show_major_ticks_v2:
+            self.draw.SetLayer(pcbnew.F_SilkS)
+            self.draw.SetLineThickness(line_width_Major_v2)
+            for current_line in major_tick_marks_v2:
+                start_x = current_line[0][0]
+                start_y = current_line[0][1]
+                end_x = current_line[1][0]
+                end_y = current_line[1][1]
+                self.draw.Line(start_x, start_y, end_x, end_y)
+
+        if show_minor_ticks_v2:
+            self.draw.SetLayer(pcbnew.F_SilkS)
+            self.draw.SetLineThickness(line_width_Minor_v2)
+            for current_line in minor_tick_marks_v2:
+                start_x = current_line[0][0]
+                start_y = current_line[0][1]
+                end_x = current_line[1][0]
+                end_y = current_line[1][1]
+                self.draw.Line(start_x, start_y, end_x, end_y)
+
+        # # Polygons ########################################
         if poly_show:
             self.draw.SetLayer(pcbnew.F_SilkS)
             self.draw.SetLineThickness(poly_line_width)
@@ -309,6 +402,7 @@ class Dial_Scale_FrontPanel_FootprintWizard(FootprintWizardBase.FootprintWizard)
             # 7. Das fertige Objekt zum Board hinzufügen
             self.module.Add(polygon_umriss)
 
+        # # Splitted Polygons ########################################
         if acr_spl_show:
             self.draw.SetLayer(pcbnew.F_SilkS)
             self.draw.SetLineThickness(poly_line_width)

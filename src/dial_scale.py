@@ -154,7 +154,7 @@ def calc_major_tick_marks(start_inner_radius: float = 5,
     return major_tick_marks
 
 
-def calc_fullrange_minor_tick_makrs(start_inner_radius: float = 5,
+def calc_fullrange_minor_tick_marks(start_inner_radius: float = 5,
                                     stop_inner_radius: float = 5,
                                     start_outer_radius: float = 5.2,
                                     stop_outer_radius: float = 8,
