@@ -553,7 +553,7 @@ def _find_intersection(start_radius: float = 5,
 
             if delta < epsilon * 0.000001:
                 # Delta has become too small, stop the search
-                print(f"\nAbort: Delta {delta} too small in {i} iterations. Error: {error_actual:.6f}")  # noqa
+                # print(f"\nAbort: Delta {delta} too small in {i} iterations. Error: {error_actual:.6f}")  # noqa
                 return test_angle, x_s, y_s, x1, y1
 
         # print(f"angle {(search_angle):.2f} {test_angle} error:  {error_new:.8f} {error_actual:.8f}, {sign} {delta}")  # noqa
