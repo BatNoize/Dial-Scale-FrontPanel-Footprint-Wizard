@@ -4,7 +4,7 @@
 
 <table>
   <tr>
-    <td>Example</td> <td> Settings: Tick_Marks</td></tr>
+    <td>Example</td> <td> Settings: <b>Tick_Marks</b></td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Tick_Marks.png" \></td> <td><div style="white-space:pre;">active_Major: True<br/>
 active_Minor: True<br/>
 line_width_Major: 0.2mm<br/>
@@ -23,7 +23,7 @@ num_Minor_Ticks: 4</div></td> </tr>
 
 <table>
   <tr>
-    <td>Example</td> <td> Settings: Tick_Marks_log</td></tr>
+    <td>Example</td> <td> Settings: <b>Tick_Marks_log</b></td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Tick_Marks_Log.png" \></td> <td><div style="white-space:pre;">active_Major: True<br/>
 active_Minor: True<br/>
 line_width_Major: 0.2mm<br/>
@@ -46,7 +46,7 @@ skip_Minor_Ticks_by_degree: 2<br/> </tr>
 
 <table>
   <tr>
-    <td>Example 1</td> <td> Settings: Tick_Marks_2 </td></tr>
+    <td>Example 1</td> <td> Settings: <b>Tick_Marks_2</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Tick_Maks_V2_Example_1.png" \></td> 
   <td><div style="white-space:pre;">active_Major: True<br/>
 active_Major: True<br/>
@@ -71,7 +71,7 @@ minor_skip_major_angle: False<br/> </tr>
 
 <table>
   <tr>
-    <td>Example 2</td> <td> Settings: Tick_Marks_2 </td></tr>
+    <td>Example 2</td> <td> Settings: <b>Tick_Marks_2</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Tick_Maks_V2_Example_2.png" \></td> 
   <td><div style="white-space:pre;">active_Major: True<br/>
 active_Major: True<br/>
@@ -96,7 +96,7 @@ minor_skip_major_angle: False<br/> </tr>
 
 <table>
   <tr>
-    <td>Example 3</td> <td> Settings: Tick_Marks_2 </td></tr>
+    <td>Example 3</td> <td> Settings: <b>Tick_Marks_2</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Tick_Maks_V2_Example_3.png" \></td> 
   <td><div style="white-space:pre;">active_Major: True<br/>
 active_Major: True<br/>
@@ -121,7 +121,7 @@ minor_skip_major_angle: True<br/> </tr>
 
 <table>
   <tr>
-    <td>Example 4</td> <td> Settings: Tick_Marks_2 </td></tr>
+    <td>Example 4</td> <td> Settings: <b>Tick_Marks_2</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Tick_Maks_V2_Example_4.png" \></td> 
   <td><div style="white-space:pre;">active_Major: True<br/>
 active_Major: True<br/>
@@ -148,7 +148,7 @@ minor_skip_major_angle: True<br/> </tr>
 
 <table>
   <tr>
-    <td>Example</td> <td> Settings: Arc_Fill </td></tr>
+    <td>Example</td> <td> Settings: <b>Arc_Fill</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Arc_wo_fill.png" \></td> <td><div style="white-space:pre;">active: True<br/>
 filled: False<br/>
 inner_radius: 6.5mm<br/>
@@ -164,7 +164,7 @@ line_width: 0.1mm<br/></div></td> </tr>
 
 <table>
   <tr>
-    <td>Example</td> <td> Settings: Arc_Fill </td></tr>
+    <td>Example</td> <td> Settings: <b>Arc_Fill</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Arc_filled.png" \></td> <td><div style="white-space:pre;">active: True<br/>
 filled: True<br/>
 inner_radius: 6.5mm<br/>
@@ -180,7 +180,7 @@ line_width: 0mm<br/></div></td> </tr>
 
 <table>
   <tr>
-    <td>Example</td> <td> Settings: Arc_Splitted_Fill </td></tr>
+    <td>Example</td> <td> Settings: <b>Arc_Splitted_Fill</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Splitted_arc_filled.png" \></td> <td><div style="white-space:pre;">active: True<br/>
 filled: True<br/>
 start_inner_radius: 6.5mm<br/>
@@ -199,7 +199,7 @@ line_width: 0.0mm<br/></div></td> </tr>
 
 <table>
   <tr>
-    <td>Example</td> <td> Settings: Arc_Splitted_Fill </td></tr>
+    <td>Example</td> <td> Settings: <b>Arc_Splitted_Fill</b> </td></tr>
   <tr><td rowspan="2" width=65%><img src="docs/Splitted_arc_filled_2.png" \></td> <td><div style="white-space:pre;">active: True<br/>
 filled: False<br/>
 start_inner_radius: 6.5mm<br/>
