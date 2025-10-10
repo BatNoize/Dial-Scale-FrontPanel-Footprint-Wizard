@@ -14,7 +14,6 @@ def plot_line_arrays(interval_grids, show_data=False, title="Tick Marks Dial Sca
     #                   [[-1.08, -3.32], [-2.47, -7.60]]
     #                   [[0.54, -3.45], [1.25, -7.90]]]
 
-    # # gripper= [[-0.0, -0.0], [-8.0, -9.797174393178826e-16]]
     if show_data:
         for i, grid in enumerate(interval_grids):
             print(f"Array of Lines {i}:")
@@ -73,11 +72,14 @@ def plot_poly_x_y(x_line, y_line, dots=True, title="Polygon Scale"):
     plt.show()
 
 
-def plot_multi_poly_x_y(xy_lines=[], dots=True, title="Multi Polygon Scales"):  # noqa
+def plot_multi_poly_x_y(xy_lines=[], dots=True, filled=True, outline = False, title="Multi Polygon Scales"):  # noqa
     plt.figure(figsize=(8, 8))
     for x_line, y_line in xy_lines:
 
-        plt.fill(x_line, y_line, alpha=0.5)
+        if (filled==True):
+            plt.fill(x_line, y_line, alpha=0.5)
+        if (outline==True):
+            plt.plot(x_line, y_line,'-', alpha=0.5)
         if dots:
             colors = ['blue', 'green', 'purple', 'orange', 'black']  # color list  # noqa
             for i in range(len(x_line)):
