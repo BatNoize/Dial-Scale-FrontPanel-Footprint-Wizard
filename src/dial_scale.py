@@ -114,6 +114,157 @@ def create_log_dial_scale_grid(inner_radius,
     return main_intervals, sub_intervals
 
 
+# ####################################################
+# # Tick Masrks Version > 0.1.0 ######################
+# ####################################################
+
+
+def calc_major_tick_marks(start_inner_radius: float = 5,
+                          stop_inner_radius: float = 5,
+                          start_outer_radius: float = 5.2,
+                          stop_outer_radius: float = 8,
+                          start_angle: float = -150,
+                          stop_angle: float = 150,
+                          num_major_ticks: int = 10
+                          ):
+    major_angles = linspace(start_angle, stop_angle, num_major_ticks)
+
+    major_tick_marks = []
+    for angle in major_angles:
+
+        sub_inner_r = _r_of_phi(start_radius=start_inner_radius,
+                                end_radius=stop_inner_radius,
+                                start_angle_deg=start_angle,
+                                end_angle_deg=stop_angle,
+                                angle=angle)
+        sub_outer_r = _r_of_phi(start_radius=start_outer_radius,
+                                end_radius=stop_outer_radius,
+                                start_angle_deg=start_angle,
+                                end_angle_deg=stop_angle,
+                                angle=angle)
+
+        x_inner = sub_inner_r * math.cos(angle * math.pi / 180)
+        y_inner = sub_inner_r * math.sin(angle * math.pi / 180)
+
+        x_outer = sub_outer_r * math.cos(angle * math.pi / 180)
+        y_outer = sub_outer_r * math.sin(angle * math.pi / 180)
+
+        line = [[x_inner, y_inner], [x_outer, y_outer]]
+        major_tick_marks.append(line)
+    return major_tick_marks
+
+
+def calc_fullrange_minor_tick_makrs(start_inner_radius: float = 5,
+                                    stop_inner_radius: float = 5,
+                                    start_outer_radius: float = 5.2,
+                                    stop_outer_radius: float = 8,
+                                    start_angle: float = -150,
+                                    stop_angle: float = 150,
+                                    num_major_ticks: int = 10,
+                                    num_minor_ticks: int = 2,
+                                    skip_major_pos=True
+                                    ):
+    major_angles = linspace(start_angle, stop_angle, num_major_ticks)
+
+    minor_angels = []
+    for i in range(len(major_angles)-1):
+        minor_angels_part = linspace(major_angles[i], major_angles[i+1], num_minor_ticks+2)  # noqa
+        if skip_major_pos:
+            minor_angels_part.pop(-1)
+            minor_angels_part.pop(0)
+        minor_angels.append(minor_angels_part)
+
+    minor_start_angle = minor_angels[0][0]
+    minor_stop_angle = minor_angels[-1][-1]
+
+    minor_tick_marks = []
+    for sub_group in minor_angels:
+        minor_group_sub_ticks = []
+        for angle in sub_group:
+            sub_inner_r = _r_of_phi(start_radius=start_inner_radius,
+                                    end_radius=stop_inner_radius,
+                                    start_angle_deg=minor_start_angle,
+                                    end_angle_deg=minor_stop_angle,
+                                    angle=angle)
+
+            sub_outer_r = _r_of_phi(start_radius=start_outer_radius,
+                                    end_radius=stop_outer_radius,
+                                    start_angle_deg=minor_start_angle,
+                                    end_angle_deg=minor_stop_angle,
+                                    angle=angle)
+
+            x_inner = sub_inner_r * math.cos(angle * math.pi / 180)
+            y_inner = sub_inner_r * math.sin(angle * math.pi / 180)
+
+            x_outer = sub_outer_r * math.cos(angle * math.pi / 180)
+            y_outer = sub_outer_r * math.sin(angle * math.pi / 180)
+            line = [[x_inner, y_inner], [x_outer, y_outer]]
+
+            minor_group_sub_ticks.append(line)
+        minor_tick_marks = minor_tick_marks + minor_group_sub_ticks
+    return minor_tick_marks
+
+
+def calc_sep_minor_tick_marks(start_inner_radius: float = 5,
+                              stop_inner_radius: float = 5,
+                              start_outer_radius: float = 5.2,
+                              stop_outer_radius: float = 8,
+                              start_angle: float = -150,
+                              stop_angle: float = 150,
+                              num_major_ticks: int = 10,
+                              num_minor_ticks: int = 2,
+                              skip_major_pos=True
+                              ):
+    major_angles = linspace(start_angle, stop_angle, num_major_ticks)
+
+    sub_angle_group = []
+    for i in range(len(major_angles)-1):
+        sub_angle_group.append([major_angles[i], major_angles[i+1]])
+
+    minor_tick_marks = []
+    for sub_group in sub_angle_group:
+        minor_angels = []
+        # print(sub_group)
+        minor_start_angle = sub_group[0]
+        minor_stop_angle = sub_group[1]
+        # print(minor_start_angle, minor_stop_angle)
+
+        minor_angels_part = linspace(minor_start_angle, minor_stop_angle, num_minor_ticks + 2)  # noqa
+        if skip_major_pos:
+            minor_angels_part.pop(-1)
+            minor_angels_part.pop(0)
+        minor_angels.append(minor_angels_part)
+        # print("minor_angels",minor_angels)
+        minor_group_sub_ticks = []
+        for angle in minor_angels_part:
+            sub_inner_r = _r_of_phi(start_radius=start_inner_radius,
+                                    end_radius=stop_inner_radius,
+                                    start_angle_deg=minor_angels_part[0],
+                                    end_angle_deg=minor_angels_part[-1],
+                                    angle=angle)
+
+            sub_outer_r = _r_of_phi(start_radius=start_outer_radius,
+                                    end_radius=stop_outer_radius,
+                                    start_angle_deg=minor_angels_part[0],
+                                    end_angle_deg=minor_angels_part[-1],
+                                    angle=angle)
+
+            x_inner = sub_inner_r * math.cos(angle * math.pi / 180)
+            y_inner = sub_inner_r * math.sin(angle * math.pi / 180)
+
+            x_outer = sub_outer_r * math.cos(angle * math.pi / 180)
+            y_outer = sub_outer_r * math.sin(angle * math.pi / 180)
+            line = [[x_inner, y_inner], [x_outer, y_outer]]
+
+            minor_group_sub_ticks.append(line)
+        minor_tick_marks = minor_tick_marks + minor_group_sub_ticks
+    return minor_tick_marks
+
+
+# ####################################################
+# # Polygon ##########################################
+# ####################################################
+
 def calc_polygon_scale(inner_radius,
                        outer_radius,
                        r_start_offset,
@@ -135,7 +286,7 @@ def calc_polygon_scale(inner_radius,
     # Koordinaten für das Polygon berechnen
     r_step = (outer_radius-r_start_offset - inner_radius)/face_counts
     log_to_file(r_step)
-    print(len(winkel_aussen))
+    # print(len(winkel_aussen))
     x_aussen = []
     y_aussen = []
 
