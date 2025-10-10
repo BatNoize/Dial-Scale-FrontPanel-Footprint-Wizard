@@ -22,7 +22,7 @@ Here is an overview of the parameters that can be defined in the dialog:
 - ``Hole Radius``: Specify the radius of the hole.
 - ``Pad Radius``: Set the radius of the pad around the hole.
 - ``Plated``: Choose whether the hole should be plated or not.
-### Tick Marks: (Improved version is in progress)
+### Tick Marks:
 - ``Active Major``: Enable or disable major tick marks.
 - ``Active Minor``: Enable or disable minor tick marks.
 - ``Line Width Major``: Set the line width for major tick marks.
@@ -35,6 +35,8 @@ Here is an overview of the parameters that can be defined in the dialog:
 - ``Outer Radius Minor``: Define the outer radius for minor tick marks.
 - ``Num Major Ticks``: Set the number of major tick marks.
 - ``Num Minor Ticks``: Set the number of minor tick marks.
+### Tick Marks V2:
+ -> See [**Examples**](EXAMPLES.md)
 ### Arc Fill:
 - ``Active``: Enable or disable the arc fill feature.
 - ``Filled``: Choose whether the arc should be filled or not.
