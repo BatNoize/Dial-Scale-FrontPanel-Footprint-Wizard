@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from itertools import cycle  # noqa ignore: F401 'itertools.cycle' imported but unused
 
 
-def plot_line_arrays(interval_grids, show_data=False, title = "Tick Marks Dial Scale Demo"):
+def plot_line_arrays(interval_grids, show_data=False, title="Tick Marks Dial Scale Demo"):  # noqa
     # Liste von Farben für den Plot
     colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
     # # interval_grids == [[[x11, y12], [x21, y22]],
@@ -41,7 +41,7 @@ def plot_line_arrays(interval_grids, show_data=False, title = "Tick Marks Dial S
     plt.show()
 
 
-def plot_poly_x_y(x_line, y_line, dots=True, title = "Polygon Scale"):
+def plot_poly_x_y(x_line, y_line, dots=True, title="Polygon Scale"):
     # Polygon zeichnen
     plt.fill(x_line, y_line, alpha=0.5)
     # plt.fill(poly, alpha=0.5)
@@ -73,22 +73,16 @@ def plot_poly_x_y(x_line, y_line, dots=True, title = "Polygon Scale"):
     plt.show()
 
 
-def plot_multi_poly_x_y(xy_lines=[], dots=True, title = "Multi Polygon Scales"):
+def plot_multi_poly_x_y(xy_lines=[], dots=True, title="Multi Polygon Scales"):  # noqa
     plt.figure(figsize=(8, 8))
     for x_line, y_line in xy_lines:
-        # print(f"x_line {x_line}")
-        # print(f"y_line {y_line}")
-        # Polygon zeichnen
-        # plt.plot(x_innen, y_innen)
-        # plt.plot(x_aussen, y_aussen)
-        # plt.fill(np.concatenate([x_innen, x_aussen]), np.concatenate([y_innen, y_aussen]), alpha=0.5)
+
         plt.fill(x_line, y_line, alpha=0.5)
-        # plt.fill(poly, alpha=0.5)
         if dots:
-            colors = ['blue', 'green', 'purple', 'orange', 'black']  # Liste mit vordefinierten Farben
+            colors = ['blue', 'green', 'purple', 'orange', 'black']  # color list  # noqa
             for i in range(len(x_line)):
                 color_index = i % len(colors)
-                plt.plot(x_line[i], y_line[i], 'o', color=colors[color_index])  # Punkte in verschiedenen Farben plotten
+                plt.plot(x_line[i], y_line[i], 'o', color=colors[color_index])
 
             # Den ersten Punkt als rot markieren
             plt.plot(x_line[0], y_line[0], 'o', color='red')
